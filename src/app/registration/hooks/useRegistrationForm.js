@@ -14,7 +14,7 @@ const useRegistrationForm = () => {
         },
         dateOfBirth: '',
         password: '',
-        role: 'USER',
+        role: 'user',
         isActive: true,
     });
     const resetForm = () => {

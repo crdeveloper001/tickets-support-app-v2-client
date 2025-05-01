@@ -14,7 +14,7 @@ import {
 import useRegistrationForm from './hooks/useRegistrationForm';
 
 export default function Page() {
-    const { formState, errors, handleChange, resetForm, validateForm,registerUser } = useRegistrationForm();
+    const { formState, errors, handleChange, resetForm, validateForm, registerUser } = useRegistrationForm();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +28,17 @@ export default function Page() {
     };
 
     return (
-        <Container maxWidth="md" suppressHydrationWarning>
+        <Container maxWidth="100%" suppressHydrationWarning={true}
+            sx={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                zIndex: 9,
+            }}
+        >
             <Paper elevation={3} sx={{ padding: 4, mt: 4 }}>
                 <Typography variant="h5" gutterBottom>
                     Account Registration
@@ -181,13 +191,27 @@ export default function Page() {
                         </Grid>
                     </Box>
 
-                    {/* Submit Button */}
-                    <Box sx={{ mt: 5, textAlign: 'right' }}>
-                        <Button variant="contained" color="primary" type="submit" >
-                            Register
-                        </Button>
-                    </Box>
+
+                    <Button sx={{ mt: 5 }} variant="contained" color="primary" type="submit" >
+                        CREATE MY ACCOUNT
+                    </Button>
+                    <Button sx={{ mt: 5, ml: 2 }} variant="outlined" color="secondary" onClick={resetForm}>
+                        RESET
+                    </Button>
+                    <Divider sx={{ my: 2 }} />
                 </Box>
+                <FormHelperText sx={{ mt: 2 }}>
+                    By creating an account, you agree to our Terms of Service and Privacy Policy.
+                </FormHelperText>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="body2" color="textSecondary" align="center">
+                    Already have an account? <a href="/login">Login here</a>
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="body2" color="textSecondary" align="center">
+                    <a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a>
+                </Typography>
+                <Divider sx={{ my: 2 }} />
             </Paper>
         </Container>
     );

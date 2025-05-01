@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const useLoginPage = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
+    const [error, setError] = useState(null);
 
     const handleEmailChange = (e) => {
         setCredentials((prev) => ({ ...prev, email: e.target.value }));
@@ -14,25 +15,26 @@ const useLoginPage = () => {
 
     const resetFields = () => {
         setCredentials({ email: '', password: '' });
+        setError(null); // Reset error state as well
     };
 
     const authenticateUser = async () => {
-        //e.preventDefault();
         try {
             const response = await axios.post(process.env.NEXT_PUBLIC_AUTHENTICATE_ACCOUNT, credentials);
             if (response.status === 200) {
-                // Handle successful login
                 console.log('Login process result:', response.data);
+                setError(null); // Clear any previous errors
                 // Redirect or perform other actions
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Login failed:', error);
-            // Handle login failure
+            setError('Authentication failed. Please check your credentials and try again.');
         }
-    }
+    };
+
     return {
         credentials,
+        error,
         handleEmailChange,
         handlePasswordChange,
         resetFields,
