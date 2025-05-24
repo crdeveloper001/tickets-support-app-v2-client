@@ -22,9 +22,17 @@ const useLoginPage = () => {
         try {
             const response = await axios.post(process.env.NEXT_PUBLIC_AUTHENTICATE_ACCOUNT, credentials);
             if (response.status === 200) {
-                console.log('Login process result:', response.data);
-                setError(null); // Clear any previous errors
-                // Redirect or perform other actions
+                const { password, isActive } = response.data;
+                if (password && isActive) {
+                    setError(null); // Clear any previous errors
+                    // Save response data in session storage
+                    sessionStorage.setItem('userData', JSON.stringify(response.data));
+                    sessionStorage.setItem('authToken', password);
+                    // Redirect to /dashboard
+                    window.location.href = '/dashboard';
+                } else {
+                    setError('Authentication failed. Account inactive or invalid password.');
+                }
             }
         } catch (error) {
             console.error('Login failed:', error);
